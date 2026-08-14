@@ -1,6 +1,5 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:sqflite/sqlite_api.dart';
 
 class DatabaseHelper {
   static final DatabaseHelper instance = DatabaseHelper._init();
@@ -61,9 +60,21 @@ class DatabaseHelper {
     }
   }
 
+  // Get all keys with their latest handover info (to check if overdue)
   Future<List<Map<String, dynamic>>> getAllKeys() async {
     final db = await instance.database;
-    return await db.query('keys');
+    return await db.rawQuery('''
+      SELECT k.*, 
+             (SELECT h.expected_return_time 
+              FROM handovers h 
+              WHERE h.key_id = k.id AND h.status = 'Taken' 
+              ORDER BY h.handover_time DESC LIMIT 1) as expected_return_time,
+             (SELECT h.person_name 
+              FROM handovers h 
+              WHERE h.key_id = k.id AND h.status = 'Taken' 
+              ORDER BY h.handover_time DESC LIMIT 1) as person_name
+      FROM keys k
+    ''');
   }
 
   Future<void> takeKey(int keyId, String personName, String expectedReturnTime) async {

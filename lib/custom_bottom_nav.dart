@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:key_tracker/feature/key/presentation/screen/keys_screen.dart';
 import 'package:key_tracker/feature/history/presentation/screen/history_screen.dart';
-import 'package:key_tracker/feature/handover/presentation/screen/add_handover_screen.dart';
+import 'package:key_tracker/feature/handover/presentation/screen/take_key_screen.dart';
 
 class CustomBottomNav extends StatefulWidget {
   const CustomBottomNav({super.key});
@@ -24,7 +24,7 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const AddHandoverScreen(),
+              builder: (context) => TakeKeyScreen(),
             ),
           );
         },
