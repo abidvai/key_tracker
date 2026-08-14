@@ -10,7 +10,6 @@ final keysProvider = FutureProvider<List<Map<String, dynamic>>>((ref) async {
   final keys = await dbHelper.getAllKeys();
   
   if (keys.isEmpty) {
-    // Initialize if empty
     await dbHelper.insertInitialKeys();
     return await dbHelper.getAllKeys();
   }
@@ -22,9 +21,9 @@ final historyProvider = FutureProvider<List<Map<String, dynamic>>>((ref) async {
   return await dbHelper.getHandoverHistory();
 });
 
-class KeyActionNotifier extends StateNotifier<bool> {
-  KeyActionNotifier(this.ref) : super(false);
-  final Ref ref;
+class KeyActionNotifier extends Notifier<bool> {
+  @override
+  bool build() => false;
 
   Future<void> takeKey(int keyId, String personName, String expectedReturnTime) async {
     final dbHelper = ref.read(databaseProvider);
@@ -44,6 +43,4 @@ class KeyActionNotifier extends StateNotifier<bool> {
   }
 }
 
-final keyActionProvider = StateNotifierProvider<KeyActionNotifier, bool>((ref) {
-  return KeyActionNotifier(ref);
-});
+final keyActionProvider = NotifierProvider<KeyActionNotifier, bool>(KeyActionNotifier.new);

@@ -46,13 +46,11 @@ class _KeysScreenState extends ConsumerState<KeysScreen> {
           loading: () => const Center(child: CircularProgressIndicator()),
           error: (err, stack) => Center(child: Text('Error: $err')),
           data: (keys) {
-            // Apply computed status
             final processedKeys = keys.map((k) {
               final computedStatus = _getComputedStatus(k);
               return {...k, 'computed_status': computedStatus};
             }).toList();
 
-            // Filter keys by search query
             final filteredKeys = processedKeys.where((k) {
               final nameMatch = k['key_name'].toString().toLowerCase().contains(_searchQuery.toLowerCase());
               final roomMatch = k['room_id'].toString().toLowerCase().contains(_searchQuery.toLowerCase());

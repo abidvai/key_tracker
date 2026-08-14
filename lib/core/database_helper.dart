@@ -60,7 +60,6 @@ class DatabaseHelper {
     }
   }
 
-  // Get all keys with their latest handover info (to check if overdue)
   Future<List<Map<String, dynamic>>> getAllKeys() async {
     final db = await instance.database;
     return await db.rawQuery('''

@@ -116,7 +116,7 @@ class _TakeKeyScreenState extends ConsumerState<TakeKeyScreen> {
                                 );
                               }).toList(),
                               onChanged: (value) {
-                                ref.read(selectedKeyProvider.notifier).state = value;
+                                ref.read(selectedKeyProvider.notifier).setKey(value);
                               },
                               decoration: _inputDecoration('Choose an available key', Icons.vpn_key_rounded, const Color(0xFF3B82F6)),
                               validator: (value) => value == null ? 'Please select a key' : null,
@@ -241,9 +241,9 @@ class _TakeKeyScreenState extends ConsumerState<TakeKeyScreen> {
         );
 
         if (time != null) {
-          ref.read(expectedReturnTimeProvider.notifier).state = DateTime(
+          ref.read(expectedReturnTimeProvider.notifier).setTime(DateTime(
             date.year, date.month, date.day, time.hour, time.minute,
-          );
+          ));
         }
       }
     }
@@ -329,8 +329,8 @@ class _TakeKeyScreenState extends ConsumerState<TakeKeyScreen> {
             if (context.mounted) {
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Key taken successfully!')));
               Navigator.pop(context);
-              ref.read(selectedKeyProvider.notifier).state = null;
-              ref.read(expectedReturnTimeProvider.notifier).state = null;
+              ref.read(selectedKeyProvider.notifier).setKey(null);
+              ref.read(expectedReturnTimeProvider.notifier).setTime(null);
             }
           }
         },
