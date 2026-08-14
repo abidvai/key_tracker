@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:key_tracker/feature/key/keys_screen.dart';
-import 'package:key_tracker/feature/history/history_screen.dart';
+import 'package:key_tracker/feature/key/presentation/screen/keys_screen.dart';
+import 'package:key_tracker/feature/history/presentation/screen/history_screen.dart';
+import 'package:key_tracker/feature/handover/presentation/screen/add_handover_screen.dart';
 
 class CustomBottomNav extends StatefulWidget {
   const CustomBottomNav({super.key});
@@ -17,41 +18,89 @@ class _CustomBottomNavState extends State<CustomBottomNav> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(index: _currentIndex, children: _screens),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: _currentIndex,
-        onDestinationSelected: (index) {
-          setState(() => _currentIndex = index);
+      body: _screens[_currentIndex],
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AddHandoverScreen(),
+            ),
+          );
         },
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        indicatorColor: Theme.of(context).colorScheme.secondaryContainer,
-        destinations: [
-          NavigationDestination(
-            icon: const Icon(Icons.vpn_key_outlined),
-            selectedIcon: Icon(
-              Icons.vpn_key_rounded,
-              color: Theme.of(context).colorScheme.onSecondaryContainer,
+        shape: const CircleBorder(),
+        child: const Icon(Icons.add),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      bottomNavigationBar: BottomAppBar(
+        height: kBottomNavigationBarHeight + 10,
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        shape: const CircularNotchedRectangle(),
+        notchMargin: 6.0,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            InkWell(
+              onTap: () {
+                setState(() {
+                  _currentIndex = 0;
+                });
+              },
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.vpn_key_rounded,
+                    color: _currentIndex == 0
+                        ? Theme.of(context).colorScheme.primary
+                        : Colors.grey,
+                  ),
+                  Text(
+                    'Keys',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: _currentIndex == 0
+                          ? Theme.of(context).colorScheme.primary
+                          : Colors.grey,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            label: 'Keys',
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.add_circle_outline),
-            selectedIcon: Icon(
-              Icons.add_circle,
-              color: Theme.of(context).colorScheme.onSecondaryContainer,
+            const SizedBox(width: 48),
+            InkWell(
+              onTap: () {
+                setState(() {
+                  _currentIndex = 1;
+                });
+              },
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.history_rounded,
+                    color: _currentIndex == 1
+                        ? Theme.of(context).colorScheme.primary
+                        : Colors.grey,
+                  ),
+                  Text(
+                    'History',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: _currentIndex == 1
+                          ? Theme.of(context).colorScheme.primary
+                          : Colors.grey,
+                    ),
+                  ),
+                ],
+              ),
             ),
-            label: 'Add',
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.history_outlined),
-            selectedIcon: Icon(
-              Icons.history_rounded,
-              color: Theme.of(context).colorScheme.onSecondaryContainer,
-            ),
-            label: 'History',
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 }
+
