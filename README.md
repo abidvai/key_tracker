@@ -1,16 +1,16 @@
-# 🔑 Key Tracker
+# Key Tracker
 
 A modern Flutter application for digitally managing office key handovers — replacing paper logs with a clean, fast, and reliable mobile solution.
 
 ---
 
-## 📱 Overview
+## Overview
 
 Key Tracker solves a common office problem: tracking who has which key, when they took it, and when it's due back. Instead of messy notebooks or spreadsheets, the app provides a real-time dashboard with status tracking, history logs, and overdue alerts.
 
 ---
 
-## ✨ Features
+## Features
 
 - **Key Dashboard** — View all office keys with their current status (Available / Taken / Overdue)
 - **Live Search** — Filter keys instantly by name, room, or person
@@ -23,7 +23,7 @@ Key Tracker solves a common office problem: tracking who has which key, when the
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 | Layer | Technology |
 |---|---|
@@ -36,7 +36,7 @@ Key Tracker solves a common office problem: tracking who has which key, when the
 
 ---
 
-## 🏗 Architecture
+## Architecture
 
 Feature-first clean architecture with clear separation of concerns:
 
@@ -68,7 +68,7 @@ lib/
 
 ---
 
-## 🗄 Database Schema
+## Database Schema
 
 **keys** table — stores all registered office keys
 
@@ -92,7 +92,7 @@ lib/
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 **Prerequisites:** Flutter SDK 3.x, Dart 3.x
 
@@ -110,7 +110,7 @@ flutter run
 
 ---
 
-## 📂 Key Widgets
+## Key Widgets
 
 | Widget | Location | Purpose |
 |---|---|---|
@@ -122,7 +122,7 @@ flutter run
 
 ---
 
-## 👤 Author
+## Author
 
 **Abdullah Al Abid**  
 GitHub: [@abidvai](https://github.com/abidvai)
