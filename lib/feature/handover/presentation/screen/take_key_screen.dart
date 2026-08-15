@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:key_tracker/core/utils/app_colors.dart';
+import 'package:key_tracker/core/utils/app_toast.dart';
 import 'package:key_tracker/feature/handover/presentation/provider/take_key_provider.dart';
 import 'package:key_tracker/core/providers/database_provider.dart';
 
@@ -108,7 +109,7 @@ class _TakeKeyScreenState extends ConsumerState<TakeKeyScreen> {
                           data: (keys) {
                             final availableKeys = keys.where((k) => k['status'] == 'Available').toList();
                             return DropdownButtonFormField<int>(
-                              value: selectedKey,
+                              initialValue: selectedKey,
                               items: availableKeys.map((keyMap) {
                                 return DropdownMenuItem<int>(
                                   value: keyMap['id'] as int, 
@@ -189,7 +190,7 @@ class _TakeKeyScreenState extends ConsumerState<TakeKeyScreen> {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 16,
             offset: const Offset(0, 4),
           ),
@@ -208,7 +209,7 @@ class _TakeKeyScreenState extends ConsumerState<TakeKeyScreen> {
         Container(
           padding: const EdgeInsets.all(7),
           decoration: BoxDecoration(
-            color: color.withOpacity(0.12),
+            color: color.withValues(alpha: 0.12),
             borderRadius: BorderRadius.circular(9),
           ),
           child: Icon(icon, size: 16, color: color),
@@ -299,7 +300,7 @@ class _TakeKeyScreenState extends ConsumerState<TakeKeyScreen> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF2563EB).withOpacity(0.4),
+            color: const Color(0xFF2563EB).withValues(alpha: 0.4),
             blurRadius: 20,
             offset: const Offset(0, 8),
           ),
@@ -310,14 +311,14 @@ class _TakeKeyScreenState extends ConsumerState<TakeKeyScreen> {
           if (_formKey.currentState?.validate() ?? false) {
             final expectedDate = ref.read(expectedReturnTimeProvider);
             if (expectedDate == null) {
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please select expected return time')));
+              AppToast.show(context, message: 'Please select expected return time', type: ToastType.warning);
               return;
             }
 
             final keyId = ref.read(selectedKeyProvider);
             if (keyId == null) {
-               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Please select a key')));
-               return;
+              AppToast.show(context, message: 'Please select a key', type: ToastType.warning);
+              return;
             }
 
             await ref.read(keyActionProvider.notifier).takeKey(
@@ -325,9 +326,14 @@ class _TakeKeyScreenState extends ConsumerState<TakeKeyScreen> {
               _personNameController.text.trim(),
               expectedDate.toIso8601String(),
             );
-            
+
             if (context.mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Key taken successfully!')));
+              AppToast.show(
+                context,
+                title: 'Success!',
+                message: 'Key has been taken successfully.',
+                type: ToastType.success,
+              );
               Navigator.pop(context);
               ref.read(selectedKeyProvider.notifier).setKey(null);
               ref.read(expectedReturnTimeProvider.notifier).setTime(null);
