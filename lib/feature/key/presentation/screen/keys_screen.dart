@@ -96,11 +96,11 @@ class _KeysScreenState extends ConsumerState<KeysScreen> {
                     padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 24.0),
                     child: Row(
                       children: [
-                        StatusCountCard(title: 'Available', count: '$availableCount', color: AppColors.statusAvailable),
+                        Expanded(child: StatusCountCard(title: 'Available', count: '$availableCount', color: AppColors.statusAvailable)),
                         const SizedBox(width: 12),
-                        StatusCountCard(title: 'Taken', count: '$takenCount', color: AppColors.statusTaken),
+                        Expanded(child: StatusCountCard(title: 'Taken', count: '$takenCount', color: AppColors.statusTaken)),
                         const SizedBox(width: 12),
-                        StatusCountCard(title: 'Overdue', count: '$overdueCount', color: AppColors.statusOverdue),
+                        Expanded(child: StatusCountCard(title: 'Overdue', count: '$overdueCount', color: AppColors.statusOverdue)),
                       ],
                     ),
                   ),

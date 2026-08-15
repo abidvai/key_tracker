@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:key_tracker/core/providers/database_provider.dart';
 import 'package:key_tracker/core/utils/app_colors.dart';
+import 'package:key_tracker/core/utils/app_toast.dart';
 import 'package:key_tracker/feature/key/presentation/widget/info_row.dart';
 
 class KeyDetailsScreen extends ConsumerWidget {
@@ -60,7 +61,6 @@ class KeyDetailsScreen extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // ── Colored top accent bar ──
                 Container(
                   height: 6,
                   decoration: BoxDecoration(
@@ -72,7 +72,6 @@ class KeyDetailsScreen extends ConsumerWidget {
                   ),
                 ),
 
-                // ── Hero section ──
                 Padding(
                   padding: const EdgeInsets.fromLTRB(24, 28, 24, 24),
                   child: Column(
@@ -121,7 +120,6 @@ class KeyDetailsScreen extends ConsumerWidget {
 
                 const Divider(height: 1, color: Color(0xFFF1F5F9)),
 
-                // ── Key Info section ──
                 Padding(
                   padding: const EdgeInsets.fromLTRB(24, 20, 24, 20),
                   child: Column(
@@ -167,7 +165,6 @@ class KeyDetailsScreen extends ConsumerWidget {
                   ),
                 ),
 
-                // ── Handover Details section (only if taken/overdue) ──
                 if (isTakenOrOverdue) ...[
                   const Divider(height: 1, color: Color(0xFFF1F5F9)),
                   Padding(
@@ -209,7 +206,6 @@ class KeyDetailsScreen extends ConsumerWidget {
                   ),
                 ],
 
-                // ── Return button (only if taken/overdue) ──
                 if (isTakenOrOverdue) ...[
                   const Divider(height: 1, color: Color(0xFFF1F5F9)),
                   Padding(
@@ -234,8 +230,11 @@ class KeyDetailsScreen extends ConsumerWidget {
                         onPressed: () async {
                           await ref.read(keyActionProvider.notifier).returnKey(keyItem['id']);
                           if (context.mounted) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Key returned successfully!')),
+                            AppToast.show(
+                              context,
+                              title: 'Returned!',
+                              message: 'Key has been returned successfully.',
+                              type: ToastType.success,
                             );
                             Navigator.pop(context);
                           }
